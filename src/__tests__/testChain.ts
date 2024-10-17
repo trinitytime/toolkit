@@ -1,4 +1,4 @@
-import * as tt from '../src/chain.ts'
+import * as tt from '../chain.ts'
 
 interface ContextType {
   a: string
@@ -23,23 +23,23 @@ function replaceValue() {
 function replaceValue2() {
   return async (ctx: ContextType): Promise<ContextType> => {
     console.log(ctx)
-    throw new Error('error')
+    // throw new Error('error')
     return {
       a: `hello ${ctx.a}`,
     }
   }
 }
 
-const compute = tt.chain(createValue(), replaceValue(), replaceValue2())
+const compute = tt.chainAsync(createValue(), replaceValue(), replaceValue2())
 
 const result = await compute('hello').catch((err) => {
-  return err.ctx
+  return err
 })
 
 console.log(result)
 
 // const aaa = await Promise.resolve(1)
-//   .then((v) => v + 1)
+//   .then((v) => v + 1)12
 //   .then((v) => {
 //     throw new Error('error')
 //   })
