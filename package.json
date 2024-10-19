@@ -1,6 +1,6 @@
 {
   "name": "@trinitytime/toolkit",
-  "version": "1.0.2",
+  "version": "1.0.0",
   "author": "buwon <buwon@mai-world.com>",
   "repository": {
     "type": "git",
@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/trinitytime/toolkit/issues"
   },
-  "description": "Lightweight dependency injection container",
+  "description": "A collection of useful libraries",
   "homepage": "https://github.com/trinitytime/toolkit",
   "keywords": [
     "typescript",
