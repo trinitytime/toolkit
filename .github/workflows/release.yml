@@ -11,8 +11,12 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "20"
-      - run: npm run test
-      - run: npm run build
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest          
+      - run: bun install
+      - run: bun run test
+      - run: bun run build
       - uses: JS-DevTools/npm-publish@v3
         with:
           token: ${{ secrets.NPM_TOKEN }}    
