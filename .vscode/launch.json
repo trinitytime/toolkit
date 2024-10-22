@@ -8,11 +8,8 @@
 			"type": "node",
 			"request": "launch",
 			"name": "Launch test current file",
-			// "runtimeExecutable": "bun",
-			"runtimeExecutable": "/home/codespace/.bun/bin/bun",
-			// "skipFiles": [
-			//   "<node_internals>/**"
-			// ],
+			"runtimeExecutable": "bun",
+			// "runtimeExecutable": "/home/codespace/.bun/bin/bun",
 			"args": ["${file}"],
 			"cwd": "${workspaceFolder}",
 			"env": {
