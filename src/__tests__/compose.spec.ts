@@ -23,7 +23,7 @@ describe('compose', () => {
     ]
 
     const fn = compose(middleware)
-    await fn({}, async () => {})
+    await fn({})
 
     expect(arr).toEqual([1, 2, 3, 4, 5, 6])
   })
