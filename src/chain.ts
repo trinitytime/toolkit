@@ -1,3 +1,17 @@
+type MultiFunc = (...arg: any[]) => any
+type SingleFunc<T> = (arg: T) => T
+type SingleAsyncFunc<T> = (arg: T) => Promise<T>
+
+
+function isArrayChain<T>(funcs: MultiFunc[] | [SingleFunc<T>[]]): funcs is [SingleFunc<T>[]] {
+  if (1 === funcs.length && Array.isArray(funcs[0])) {
+    return true
+  }
+  
+  return false
+}
+
+export function chain<T>(f1: SingleFunc<T>[]): SingleFunc<T>
 export function chain<T1 extends any[], T2, T3>(f1: (...arg: T1) => T2, f2: (arg: T2) => T3): (...arg: T1) => T3
 export function chain<T1 extends any[], T2, T3, T4>(
   f1: (...arg: T1) => T2,
@@ -67,12 +81,20 @@ export function chain<T1 extends any[], T2, T3, T4, T5, T6, T7, T8, T9, T10, T11
   f9: (arg: T3) => T10,
   f10: (arg: T3) => T11,
 ): (...arg: T1) => T11
-export function chain(...funcs: ((...args: any[]) => any)[]) {
+export function chain(...funcs: MultiFunc[] | [SingleFunc<any>[]]) {
+  if (isArrayChain(funcs)) {
+    const first = funcs[0]
+    return (arg: any) => {
+      return first.reduce((acc, fn) => fn(acc), arg)
+    }
+  }
+
   return (...args: any[]) => {
     return funcs.slice(1).reduce((acc, fn) => fn(acc), funcs[0](...args))
   }
 }
 
+export function chainAsync<T>(f1: SingleAsyncFunc<T>[]): SingleAsyncFunc<T>
 export function chainAsync<T1 extends any[], T2, T3>(
   f1: (...arg: T1) => T2 | Promise<T2>,
   f2: (arg: T2) => T3 | Promise<T3>,
@@ -145,7 +167,14 @@ export function chainAsync<T1 extends any[], T2, T3, T4, T5, T6, T7, T8, T9, T10
   f9: (arg: T9) => T10 | Promise<T10>,
   f10: (arg: T10) => T11 | Promise<T11>,
 ): (...arg: T1) => Promise<T11>
-export function chainAsync(...funcs: ((...args: any[]) => any)[]) {
+export function chainAsync(...funcs: MultiFunc[] | [SingleFunc<any>[]]) {
+  if (isArrayChain(funcs)) {
+    const first = funcs[0]
+    return async (arg: any) => {
+      return Promise.resolve(arg).then((v) => first.reduce((promise, fn) => promise.then(fn), Promise.resolve(v)))
+    }
+  }
+
   return async (...args: any[]) => {
     return Promise.resolve(args)
       .then((args) => funcs[0](...args))
@@ -153,16 +182,3 @@ export function chainAsync(...funcs: ((...args: any[]) => any)[]) {
   }
 }
 
-export function arrayChain<T>(funcs: ((arg: T) => T)[]): (arg: T) => T {
-  return (arg: T): T => {
-    return funcs.reduce((acc, fn) => fn(acc), arg)
-  }
-}
-
-export function arrayChainAsync<T>(funcs: ((arg: T) => T | Promise<T>)[]) {
-  return async (arg: T): Promise<T> => {
-    return Promise.resolve(arg).then((v: T) =>
-      funcs.reduce((promise: Promise<T>, f) => promise.then(f), Promise.resolve(v)),
-    )
-  }
-}

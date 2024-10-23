@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test'
-import { arrayChain, arrayChainAsync, chain, chainAsync } from '../chain'
+import { chain, chainAsync } from '../chain'
 
 describe('chain', () => {
   it('should chain two functions', () => {
@@ -7,6 +7,13 @@ describe('chain', () => {
     const square = (x: number) => x * x
     const chained = chain(add, square)
     expect(chained(2, 3)).toBe(25)
+  })
+
+  it('should chain two functions array', () => {
+    const add = (a: number) => a + 1
+    const square = (x: number) => x * x
+    const chained = chain([add, square])
+    expect(chained(2)).toBe(9)
   })
 
   it('should chain three functions', () => {
@@ -38,7 +45,7 @@ describe('chainAsync', () => {
 describe('arrayChain', () => {
   it('should chain an array of functions', () => {
     const funcs = [(x: number) => x + 1, (x: number) => x * 2, (x: number) => x - 3]
-    const chained = arrayChain(funcs)
+    const chained = chain(funcs)
     expect(chained(5)).toBe(9)
   })
 })
@@ -46,7 +53,7 @@ describe('arrayChain', () => {
 describe('arrayChainAsync', () => {
   it('should chain an array of async functions', async () => {
     const funcs = [async (x: number) => x + 1, async (x: number) => x * 2, async (x: number) => x - 3]
-    const chained = arrayChainAsync(funcs)
+    const chained = chainAsync(funcs)
     expect(await chained(5)).toBe(9)
   })
 })
