@@ -1,4 +1,4 @@
-# Toolkit
+# @trinitytime/toolkit
 
 ## Introduction
 Toolkit is a project that provides various tools and utilities. It is designed to help developers perform everyday tasks more easily.
@@ -18,6 +18,12 @@ const square = (x: number) => x * x
 const chained = chain(add, square)
 
 const result = chained(2, 3) // 25
+
+const addOne = (a: number) => a + 1
+const square = (x: number) => x * x
+const chained = arrayChain([addOne, square])
+
+const result = chained(2) // 9
 ```
 
 
@@ -28,25 +34,12 @@ const square = async (x: number) => x * x
 const chained = chainAsync(add, square)
 
 const result = await chained(2, 3) // 25
-```
 
-### arrayChain
-```typescript
-const add = (a: number) => a + 1
-const square = (x: number) => x * x
-const chained = arrayChain(add, square)
-
-const result = chained(2, 3) // 25
-```
-
-
-### arrayChainAsync
-```typescript
-const add = async (a: number) => a + 1
+const addOne = async (a: number) => a + 1
 const square = async (x: number) => x * x
-const chained = arrayChainAsync(add, square)
+const chained = chainAsync([add, square])
 
-const result = await chained(2, 3) // 25
+const result = await chained(2) // 9
 ```
 
 
