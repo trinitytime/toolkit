@@ -1,2 +1,2 @@
-export * from './chain.ts'
-export * from './compose.ts'
+export * from './chain'
+export * from './compose'
