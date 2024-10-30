@@ -70,6 +70,26 @@ await fn(ctx)
 // ctx.arr  [1, 2, 3, 4, 5, 6]
 ```
 
+### runDetachSpawn
+
+The `runDetachSpawn` function is responsible for detaching a child process and allowing it to run independently from the parent process. This is useful when you want to start a long-running task without blocking the parent process.
+
+Example usage:
+
+```javascript
+import { runDetachSpawn } from '@trinitytime/toolkit/server';
+
+runDetachSpawn(['node', 'script.js'], {
+  cwd: '/path/to/working/directory',
+  env: process.env
+});
+```
+
+#### Parameters:
+- `args` (string[]): Command and list of string arguments.
+- `options` (object): Options to pass to the child process.
+  - `cwd` (string): Current working directory of the child process.
+  - `env` (object): Environment key-value pairs.
 
 
 ## License

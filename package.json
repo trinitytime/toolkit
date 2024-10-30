@@ -1,6 +1,6 @@
 {
   "name": "@trinitytime/toolkit",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "author": "buwon <buwon@mai-world.com>",
   "repository": {
     "type": "git",
@@ -18,6 +18,11 @@
       "require": "./dist/index.js",
       "import": "./dist/index.js",
       "types": "./dist/index.d.cts"
+    },
+    "./server": {
+      "require": "./dist/server.js",
+      "import": "./dist/server.js",
+      "types": "./dist/server.d.cts"
     }
   },
   "bugs": {
@@ -33,9 +38,11 @@
   "scripts": {
     "prepack": "npm run build",
     "prebuild": "npm run clean",
-    "build": "npm run build:code && npm run build:type",
-    "build:code": "bun build ./src/index.ts --outdir ./dist --target node",
-    "build:type": "tsup ./src/index.ts --dts-only",
+    "build": "npm run build:universal && npm run build:server && npm run build:universal:type && npm run build:server:type",
+    "build:universal": "bun build ./src/index.ts --outdir ./dist --target node",
+    "build:server": "bun build ./src/server.ts --outdir ./dist --target node",
+    "build:universal:type": "tsup ./src/index.ts --dts-only",
+    "build:server:type": "tsup ./src/server.ts --dts-only",
     "clean": "rm -rf dist",
     "test": "bun test"
   },
