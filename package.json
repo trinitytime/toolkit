@@ -15,14 +15,18 @@
   },
   "exports": {
     ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.cts"
+      "node": {
+        "import": "./dist/index.js",
+        "require": "./dist/index.js"
+      },
+      "bun": "./src/index.ts"
     },
     "./server": {
-      "require": "./dist/server.js",
-      "import": "./dist/server.js",
-      "types": "./dist/server.d.cts"
+      "node": {
+        "import": "./dist/server.js",
+        "require": "./dist/server.js"
+      },
+      "bun": "./src/server.ts"
     }
   },
   "bugs": {
