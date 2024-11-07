@@ -1,6 +1,6 @@
 export interface ChildProcessInfo {
   pid: number
-  status: 'running' | 'failed'
+  status: 'running' | 'failed' | 'exited'
   error?: string
 }
 
@@ -42,7 +42,12 @@ export async function runNodeDetachSpawn(args: string[], opts: SpawnOptions = {}
 
       // 프로세스가 즉시 종료되는 경우
       child.on('exit', (code, signal) => {
-        if (code !== null || signal !== null) {
+        if (code === 0) {
+          resolve({
+            pid: child.pid ?? -1,
+            status: 'exited',
+          })
+        } else {
           resolve({
             pid: child.pid ?? -1,
             status: 'failed',
@@ -118,6 +123,11 @@ export function runBunDetachSpawn(args: string[], opts: SpawnOptions = {}): Prom
             resolve({
               pid: proc.pid,
               status: 'running',
+            })
+          } else if (exitCode === 0) {
+            resolve({
+              pid: proc.pid,
+              status: 'exited',
             })
           } else {
             resolve({

@@ -1,6 +1,6 @@
 {
   "name": "@trinitytime/toolkit",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "author": "buwon <buwon@mai-world.com>",
   "repository": {
     "type": "git",
@@ -15,17 +15,13 @@
   },
   "exports": {
     ".": {
-      "node": {
-        "import": "./dist/index.js",
-        "require": "./dist/index.js"
-      },
+      "default": "./dist/index.js",
+      "types": "./dist/index.d.cts",
       "bun": "./src/index.ts"
     },
     "./server": {
-      "node": {
-        "import": "./dist/server.js",
-        "require": "./dist/server.js"
-      },
+      "default": "./dist/server.js",
+      "types": "./dist/server.d.cts",
       "bun": "./src/server.ts"
     }
   },
